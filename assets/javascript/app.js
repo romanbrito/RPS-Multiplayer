@@ -14,9 +14,10 @@ database.ref().on("value", function(snapshot) {
     // Set the initial variables for player1
 
     name1 = snapshot.val().player1Name;
+    renderButtons(1);
 
     // Change the HTML to reflect the initial value
-    $("#player1").html("player 1 name " + name1);
+    $("#player1 p").html("player 1 name " + name1);
 
     // Print the initial data to the console.
 
@@ -34,7 +35,7 @@ database.ref().on("value", function(snapshot) {
 
   }
 
-  // If Firebase has a player2 
+  // If Firebase has a player2
   if (snapshot.child("player2Name").exists()) {
 
     // Set the initial variables for player1
@@ -42,7 +43,8 @@ database.ref().on("value", function(snapshot) {
     name2 = snapshot.val().player2Name;
 
     // Change the HTML to reflect the initial value
-    $("#player2").html("player 2 name " + name2);
+    $("#player2 p").html("player 2 name " + name2);
+    renderButtons(2);
 
     // Print the initial data to the console.
 
@@ -70,14 +72,19 @@ $("#submit-name").on("click", function (event) {
     event.preventDefault();
     if (name1) {
         name2 = $("#name").val().trim();
-        $("#player2").html("player 2 name " + name2);
+        $("#player2 p").html("player 2 name " + name2);
     } else {
         name1 = $("#name").val().trim();
-        $("#player1").html("player 1 name " + name1);
+        $("#player1 p").html("player 1 name " + name1);
     }
     // Save the new info in Firebase
     database.ref().set({
         player1Name: name1,
         player2Name: name2
     });
+});
+
+$(document).on("click", ".attackOptions", function () {
+    var dataIndex = $(this).attr("data-index");
+    console.log(dataIndex);
 });
