@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "staging": "rps-muliplayer",
+    "default": "rps-multiplayer-56461"
+  }
+}
