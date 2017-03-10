@@ -4,26 +4,26 @@
           // return false if player 1 loses
           // return -1 if tie
 
-        // If the user presses "rock" or "paper" or "scissors", run the game logic.
-        if ((player1Attack === "rock") || (player1Attack === "paper") || (player1Attack === "scissors")) {
+        // If the user presses "Rock" or "Paper" or "Scissors", run the game logic.
+        if ((player1Attack === "Rock") || (player1Attack === "Paper") || (player1Attack === "Scissors")) {
 
           // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate counter.
-          if ((player1Attack === "rock") && (player2Attack === "scissors")) {
+          if ((player1Attack === "Rock") && (player2Attack === "Scissors")) {
             return true;
           }
-          else if ((player1Attack === "rock") && (player2Attack === "paper")) {
+          else if ((player1Attack === "Rock") && (player2Attack === "Paper")) {
             return false;
           }
-          else if ((player1Attack === "scissors") && (player2Attack === "rock")) {
+          else if ((player1Attack === "Scissors") && (player2Attack === "Rock")) {
             return false;
           }
-          else if ((player1Attack === "scissors") && (player2Attack === "paper")) {
+          else if ((player1Attack === "Scissors") && (player2Attack === "Paper")) {
             return true;
           }
-          else if ((player1Attack === "paper") && (player2Attack === "rock")) {
+          else if ((player1Attack === "Paper") && (player2Attack === "Rock")) {
             return true;
           }
-          else if ((player1Attack === "paper") && (player2Attack === "scissors")) {
+          else if ((player1Attack === "Paper") && (player2Attack === "Scissors")) {
             return false;
           }
           else if (player1Attack === player2Attack) {
