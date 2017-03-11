@@ -24,3 +24,8 @@ function renderButtons(playerNumber) {
     playerButtonView.append(a);
   }
 }
+
+function clearButtons(playerNumber) {
+  playerButtonView = $("#player" + playerNumber + " .buttons-view");
+  playerButtonView.empty();  
+}
