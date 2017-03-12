@@ -35,8 +35,18 @@ database.ref().on("value", function(snapshot) {
             $("#result").html("<h2> Tie </h2>");
         } else if (result) {
             $("#result").html("<h2>" + players[0].name + " won </h2>");
+            $("#player1").html(players[1].name);
+            players[0].wins += 1;
+            players[1].losses += 1;
+            $("#player1").append(" Wins: " + players[0].wins);
+            $("#player1").append(" Losses: " + players[0].losses);
         } else {
             $("#result").html("<h2>" + players[1].name + " won </h2>");
+            $("#player2").html(players[1].name);
+            players[1].wins += 1;
+            players[0].losses += 1;
+            $("#player2").append(" Wins: " + players[1].wins);
+            $("#player2").append(" Losses: " + players[1].losses);
         }
     }
 
@@ -99,10 +109,7 @@ $(document).on("click", ".attackOptions", function() {
     });
     if (players.length > 1) {
         turn++;
-
-
         console.log(turn);
-
         var dataPlayer = $(this).attr("data-player");
         var attackPlayer = $(this).html();
 
