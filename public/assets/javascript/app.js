@@ -1,6 +1,11 @@
 // Initialize Firebase
 var database = firebase.database();
 
+database.ref().set({
+    players: null,
+    turn: null
+});
+
 var players = [];
 const NumOfPlayers = 2;
 
