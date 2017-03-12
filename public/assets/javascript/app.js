@@ -6,6 +6,7 @@ const NumOfPlayers = 2;
 
 // At initial load, get a snapshot of the current data
 database.ref().on("value", function(snapshot) {
+  var turn = 0 ;
     if (snapshot.child("players").exists()) {
         players = snapshot.val().players;
     } else {}
@@ -15,6 +16,13 @@ database.ref().on("value", function(snapshot) {
         playerNameView.html(players[i].name);
         playerNameView.append(" Wins: " + players[i].wins);
         playerNameView.append(" Losses: " + players[i].losses);
+    }
+    // turn
+    if (snapshot.child("turn").exists()) {
+        turn = snapshot.val().turn;
+    } else {}
+    if (turn > 0) {
+      showButtons(players.length);
     }
 
     // If any errors are experienced, log them to console.
@@ -37,7 +45,21 @@ $("#submit-name").on("click", function(event) {
         });
         $("#row2").html("Hi " + playerName + "! You are Player " + players.length + "<br> It's your turn");
 
+        // turn
+        var turn = 0;
+        database.ref().on("value", function(snapshot) {
+            if (snapshot.child("turn").exists()) {
+                // initial values
+                turn = snapshot.val().turn;
+            } else {}
+            // If any errors are experienced, log them to console.
+        }, function(errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
         renderButtons(players.length);
+        if (players.length > 1) {
+          clearButtons(players.length);
+        }
 
         // Save the new info in Firebase
         database.ref().set({
@@ -54,9 +76,8 @@ $(document).on("click", ".attackOptions", function() {
     database.ref().on("value", function(snapshot) {
         if (snapshot.child("turn").exists()) {
             // initial values
-        turn = snapshot.val().turn;
-        } else {
-        }
+            turn = snapshot.val().turn;
+        } else {}
         // If any errors are experienced, log them to console.
     }, function(errorObject) {
         console.log("The read failed: " + errorObject.code);
@@ -72,11 +93,10 @@ $(document).on("click", ".attackOptions", function() {
     playerButtonView.text(attackPlayer);
     console.log(attackPlayer);
     console.log(dataPlayer);
-    players[turn-1].choice = attackPlayer;
+    players[turn - 1].choice = attackPlayer;
 
     database.ref().set({
         players,
         turn
     });
-
 });

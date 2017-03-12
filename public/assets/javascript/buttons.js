@@ -27,5 +27,10 @@ function renderButtons(playerNumber) {
 
 function clearButtons(playerNumber) {
   playerButtonView = $("#player" + playerNumber + " .buttons-view");
-  playerButtonView.empty();
+  playerButtonView.hide();
+}
+
+function showButtons(playerNumber) {
+  playerButtonView = $("#player" + playerNumber + " .buttons-view");
+  playerButtonView.show();
 }
