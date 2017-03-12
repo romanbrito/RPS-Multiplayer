@@ -24,6 +24,16 @@ database.ref().on("value", function(snapshot) {
     if (turn > 0) {
       showButtons(players.length);
     }
+    if (turn > 1) {
+      var result = rpsGame(players[0].choice, players[1].choice);
+      if (result === -1) {
+        $("#result").html("<h2> Tie </h2>" );
+      } else if (result) {
+            $("#result").html("<h2>" + players[0].name + " won </h2>" );
+      } else {
+        $("#result").html("<h2>" + players[1].name + " won </h2>" );
+      }
+    }
 
     // If any errors are experienced, log them to console.
 }, function(errorObject) {
