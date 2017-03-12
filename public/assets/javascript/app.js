@@ -3,16 +3,12 @@ var database = firebase.database();
 
 var players = [];
 const NumOfPlayers = 2;
-var turn = 0;
 
 // At initial load, get a snapshot of the current data
 database.ref().on("value", function(snapshot) {
     if (snapshot.child("players").exists()) {
         players = snapshot.val().players;
-        turn = snapshot.val().turn;
-    } else {
-
-    }
+    } else {}
 
     for (var i = 0; i < players.length; i++) {
         playerNameView = $("#player" + (i + 1) + " p");
@@ -30,7 +26,6 @@ database.ref().on("value", function(snapshot) {
 $("#submit-name").on("click", function(event) {
     // Prevent form from submitting
     event.preventDefault();
-    turn++;
 
     if (players.length < NumOfPlayers) {
         var playerName = $("#name").val().trim();
@@ -46,8 +41,7 @@ $("#submit-name").on("click", function(event) {
 
         // Save the new info in Firebase
         database.ref().set({
-            players,
-            turn
+            players
         });
         console.log(players);
     }
@@ -55,6 +49,21 @@ $("#submit-name").on("click", function(event) {
 
 // click buttons
 $(document).on("click", ".attackOptions", function() {
+    // turn variable
+    var turn = 0;
+    database.ref().on("value", function(snapshot) {
+        if (snapshot.child("turn").exists()) {
+            // initial values
+        turn = snapshot.val().turn;
+        } else {
+        }
+        // If any errors are experienced, log them to console.
+    }, function(errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+    turn++;
+
+    console.log(turn);
 
     var dataPlayer = $(this).attr("data-player");
     var attackPlayer = $(this).html();
