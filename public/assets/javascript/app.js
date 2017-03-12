@@ -11,7 +11,7 @@ const NumOfPlayers = 2;
 
 // At initial load, get a snapshot of the current data
 database.ref().on("value", function(snapshot) {
-  var turn = 0 ;
+    var turn = 0;
     if (snapshot.child("players").exists()) {
         players = snapshot.val().players;
     } else {}
@@ -27,17 +27,17 @@ database.ref().on("value", function(snapshot) {
         turn = snapshot.val().turn;
     } else {}
     if (turn > 0) {
-      showButtons(players.length);
+        showButtons(players.length);
     }
     if (turn > 1) {
-      var result = rpsGame(players[0].choice, players[1].choice);
-      if (result === -1) {
-        $("#result").html("<h2> Tie </h2>" );
-      } else if (result) {
-            $("#result").html("<h2>" + players[0].name + " won </h2>" );
-      } else {
-        $("#result").html("<h2>" + players[1].name + " won </h2>" );
-      }
+        var result = rpsGame(players[0].choice, players[1].choice);
+        if (result === -1) {
+            $("#result").html("<h2> Tie </h2>");
+        } else if (result) {
+            $("#result").html("<h2>" + players[0].name + " won </h2>");
+        } else {
+            $("#result").html("<h2>" + players[1].name + " won </h2>");
+        }
     }
 
     // If any errors are experienced, log them to console.
@@ -73,7 +73,7 @@ $("#submit-name").on("click", function(event) {
         });
         renderButtons(players.length);
         if (players.length > 1) {
-          clearButtons(players.length);
+            clearButtons(players.length);
         }
 
         // Save the new info in Firebase
@@ -97,18 +97,23 @@ $(document).on("click", ".attackOptions", function() {
     }, function(errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-    turn++;
+    if (players.length > 1) {
+        turn++;
 
-    console.log(turn);
 
-    var dataPlayer = $(this).attr("data-player");
-    var attackPlayer = $(this).html();
+        console.log(turn);
 
-    var playerButtonView = $("#" + dataPlayer + " .buttons-view");
-    playerButtonView.text(attackPlayer);
-    console.log(attackPlayer);
-    console.log(dataPlayer);
-    players[turn - 1].choice = attackPlayer;
+        var dataPlayer = $(this).attr("data-player");
+        var attackPlayer = $(this).html();
+
+        var playerButtonView = $("#" + dataPlayer + " .buttons-view");
+        playerButtonView.text(attackPlayer);
+        console.log(attackPlayer);
+        console.log(dataPlayer);
+        players[turn - 1].choice = attackPlayer;
+    } else {
+        console.log("waiting for player");
+    }
 
     database.ref().set({
         players,
