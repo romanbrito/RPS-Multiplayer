@@ -5,7 +5,7 @@ function renderButtons(playerNumber) {
 
   // Deleting the topics prior to adding new topics
   // (this is necessary otherwise you will have repeat buttons)
-    playerButtonView = $("#player" + playerNumber + " .buttons-view");
+    var playerButtonView = $("#player" + playerNumber + " .buttons-view");
     playerButtonView.empty();
 
   // Looping through the array of attackOptions
@@ -17,7 +17,7 @@ function renderButtons(playerNumber) {
     // Adding a class of topic to our button
     a.addClass("attackOptions btn btn-primary");
     // Adding a data-attribute
-    a.attr("data-player", "playerNum" + playerNumber);
+    a.attr("data-player", "player" + playerNumber);
     // Providing the initial button text
     a.text(attackOptions[i]);
     // Adding the button to the buttons-view div
@@ -27,5 +27,5 @@ function renderButtons(playerNumber) {
 
 function clearButtons(playerNumber) {
   playerButtonView = $("#player" + playerNumber + " .buttons-view");
-  playerButtonView.empty();  
+  playerButtonView.empty();
 }
