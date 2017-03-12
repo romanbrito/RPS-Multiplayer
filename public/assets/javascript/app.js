@@ -42,7 +42,7 @@ $("#submit-name").on("click", function(event) {
         });
         $("#row2").html("Hi " + playerName + "! You are Player " + players.length + "<br> It's your turn");
 
-        renderButtons(turn);
+        renderButtons(players.length);
 
         // Save the new info in Firebase
         database.ref().set({
@@ -54,7 +54,7 @@ $("#submit-name").on("click", function(event) {
 });
 
 // click buttons
-$(document).on("click", ".attackOptions", function () {
+$(document).on("click", ".attackOptions", function() {
 
     var dataPlayer = $(this).attr("data-player");
     var attackPlayer = $(this).html();
@@ -63,5 +63,11 @@ $(document).on("click", ".attackOptions", function () {
     playerButtonView.text(attackPlayer);
     console.log(attackPlayer);
     console.log(dataPlayer);
+    players[turn-1].choice = attackPlayer;
+
+    database.ref().set({
+        players,
+        turn
+    });
 
 });
