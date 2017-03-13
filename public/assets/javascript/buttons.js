@@ -34,3 +34,12 @@ function showButtons(playerNumber) {
   playerButtonView = $("#player" + playerNumber + " .buttons-view");
   playerButtonView.show();
 }
+
+function renderInformation(player1Choice, player2Choice, player1Wins, player1Losses, player2Wins, player2Losses){
+  $("#player1 .choice").html(player1Choice);
+  $("#player2 .choice").html(player2Choice);
+  $("#player1 .wins").html(" Wins: " + player1Wins);
+  $("#player1 .losses").html(" Losses: " + player1Losses);
+  $("#player2 .wins").html(" Wins: " + player2Wins);
+  $("#player2 .losses").html(" Losses: " + player2Losses);
+}

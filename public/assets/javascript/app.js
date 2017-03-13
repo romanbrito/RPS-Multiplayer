@@ -17,10 +17,12 @@ database.ref().on("value", function(snapshot) {
     } else {}
 
     for (var i = 0; i < players.length; i++) {
-        playerNameView = $("#player" + (i + 1) + " p");
+        var playerNameView = $("#player" + (i + 1) + " p");
         playerNameView.html(players[i].name);
-        playerNameView.append(" Wins: " + players[i].wins);
-        playerNameView.append(" Losses: " + players[i].losses);
+        var playerInfoWins = $("#player" + (i + 1) + " .wins");
+        playerInfoWins.html(" Wins: " + players[i].wins);
+        var playerInfoLoss = $("#player" + (i + 1) + " .losses");
+        playerInfoLoss.html(" Losses: " + players[i].losses);
     }
     // turn
     if (snapshot.child("turn").exists()) {
@@ -33,20 +35,21 @@ database.ref().on("value", function(snapshot) {
         var result = rpsGame(players[0].choice, players[1].choice);
         if (result === -1) {
             $("#result").html("<h2> Tie </h2>");
+            renderInformation(players[0].choice, players[1].choice, players[0].wins, players[0].losses, players[1].wins, players[1].losses);
         } else if (result) {
             $("#result").html("<h2>" + players[0].name + " won </h2>");
-            $("#player1").html(players[1].name);
             players[0].wins += 1;
             players[1].losses += 1;
-            $("#player1").append(" Wins: " + players[0].wins);
-            $("#player1").append(" Losses: " + players[0].losses);
+            renderInformation(players[0].choice, players[1].choice, players[0].wins, players[0].losses, players[1].wins, players[1].losses);
         } else {
             $("#result").html("<h2>" + players[1].name + " won </h2>");
-            $("#player2").html(players[1].name);
             players[1].wins += 1;
             players[0].losses += 1;
-            $("#player2").append(" Wins: " + players[1].wins);
-            $("#player2").append(" Losses: " + players[1].losses);
+            renderInformation(players[0].choice, players[1].choice, players[0].wins, players[0].losses, players[1].wins, players[1].losses);
+        }
+        for (var i = 0; i < players.length; i++) {
+          renderButtons(i + 1); // next game
+          console.log("players.length " + players.length);
         }
     }
 
@@ -71,11 +74,11 @@ $("#submit-name").on("click", function(event) {
         $("#row2").html("Hi " + playerName + "! You are Player " + players.length + "<br> It's your turn");
 
         // turn
-        var turn = 0;
+        var turn = 0; // check
         database.ref().on("value", function(snapshot) {
             if (snapshot.child("turn").exists()) {
                 // initial values
-                turn = snapshot.val().turn;
+                turn = snapshot.val().turn; // check
             } else {}
             // If any errors are experienced, log them to console.
         }, function(errorObject) {
@@ -109,6 +112,10 @@ $(document).on("click", ".attackOptions", function() {
     });
     if (players.length > 1) {
         turn++;
+        if (turn === 3) {
+
+          turn = 1; // reset turn
+        }
         console.log(turn);
         var dataPlayer = $(this).attr("data-player");
         var attackPlayer = $(this).html();
