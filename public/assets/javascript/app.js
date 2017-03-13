@@ -47,10 +47,10 @@ database.ref().on("value", function(snapshot) {
             players[0].losses += 1;
             renderInformation(players[0].choice, players[1].choice, players[0].wins, players[0].losses, players[1].wins, players[1].losses);
         }
-        for (var i = 0; i < players.length; i++) {
-          renderButtons(i + 1); // next game
-          console.log("players.length " + players.length);
-        }
+        // for (var i = 0; i < players.length; i++) {
+        //   renderButtons(i + 1); // next game
+        //   console.log("players.length " + players.length);
+        // }
     }
 
     // If any errors are experienced, log them to console.
@@ -120,7 +120,7 @@ $(document).on("click", ".attackOptions", function() {
         var dataPlayer = $(this).attr("data-player");
         var attackPlayer = $(this).html();
 
-        var playerButtonView = $("#" + dataPlayer + " .buttons-view");
+        var playerButtonView = $("#" + dataPlayer + " .choice");
         playerButtonView.text(attackPlayer);
         console.log(attackPlayer);
         console.log(dataPlayer);
