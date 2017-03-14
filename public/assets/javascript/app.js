@@ -8,6 +8,7 @@ database.ref().set({
 
 var players = [];
 const NumOfPlayers = 2;
+var playerNum = 1;
 
 // At initial load, get a snapshot of the current data
 database.ref().on("value", function(snapshot) {
@@ -28,9 +29,15 @@ database.ref().on("value", function(snapshot) {
     if (snapshot.child("turn").exists()) {
         turn = snapshot.val().turn;
     } else {}
-    if (turn > 0) {
-        showButtons(players.length);
+    if (turn === 2) {
+        showButtons(1);
+        clearButtons(2);
     }
+    if (turn === 1) {
+      showButtons(2);
+      clearButtons(1);
+    }
+
     if (turn > 1) {
         var result = rpsGame(players[0].choice, players[1].choice);
         if (result === -1) {
@@ -47,10 +54,6 @@ database.ref().on("value", function(snapshot) {
             players[0].losses += 1;
             renderInformation(players[0].choice, players[1].choice, players[0].wins, players[0].losses, players[1].wins, players[1].losses);
         }
-        // for (var i = 0; i < players.length; i++) {
-        //   renderButtons(i + 1); // next game
-        //   console.log("players.length " + players.length);
-        // }
     }
 
     // If any errors are experienced, log them to console.
@@ -71,7 +74,10 @@ $("#submit-name").on("click", function(event) {
             wins: 0,
             choice: null
         });
-        $("#row2").html("Hi " + playerName + "! You are Player " + players.length + "<br> It's your turn");
+        $("#row2").html("Hi " + playerName + "! You are Player " + players.length);
+
+        playerNum = players.length;
+        console.log("player number " + playerNum);
 
         // turn
         var turn = 0; // check
@@ -85,8 +91,8 @@ $("#submit-name").on("click", function(event) {
             console.log("The read failed: " + errorObject.code);
         });
         renderButtons(players.length);
-        if (players.length > 1) {
-            clearButtons(players.length);
+        if (players.length = 2) {
+            clearButtons(2);
         }
 
         // Save the new info in Firebase
@@ -99,6 +105,7 @@ $("#submit-name").on("click", function(event) {
 
 // click buttons
 $(document).on("click", ".attackOptions", function() {
+  clearButtons(playerNum);
     // turn variable
     var turn = 0;
     database.ref().on("value", function(snapshot) {
@@ -116,7 +123,7 @@ $(document).on("click", ".attackOptions", function() {
 
           turn = 1; // reset turn
         }
-        console.log(turn);
+        console.log("turn click " + turn);
         var dataPlayer = $(this).attr("data-player");
         var attackPlayer = $(this).html();
 
@@ -126,7 +133,8 @@ $(document).on("click", ".attackOptions", function() {
         console.log(dataPlayer);
         players[turn - 1].choice = attackPlayer;
     } else {
-        console.log("waiting for player");
+        $("#result").html("Waiting for player");
+        showButtons(1);
     }
 
     database.ref().set({
