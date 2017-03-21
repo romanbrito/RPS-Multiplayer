@@ -1,5 +1,6 @@
 // Initialize Firebase
 var database = firebase.database();
+var chatDbase = firebase.database().ref("chat");
 
 database.ref().set({
     players: null,
@@ -140,5 +141,29 @@ $(document).on("click", ".attackOptions", function() {
     database.ref().set({
         players,
         turn
+    });
+});
+
+// chat funcionality
+
+// if (snapshot.child("players").exists()) {
+//     players = snapshot.val().players;
+// } else {}
+
+chatDbase.on("value", function(snapshot){
+  if (snapshot.child("chat").exists()) {
+    var message = snapshot.val().chat;
+    $("#chatArea").append(message);
+  }
+
+
+});
+
+$("#send-msg").on("click", function(event){
+    event.preventDefault();
+    var msg = $("#chatInput").val().trim();
+    console.log(msg);
+    chatDbase.set({
+      chat: msg
     });
 });

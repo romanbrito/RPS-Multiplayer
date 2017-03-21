@@ -5,3 +5,9 @@
   border: 2px solid black;
   height: 200px;
 }
+
+#chatArea {
+  
+  height: 12em;
+  border: black solid 1px;
+}
